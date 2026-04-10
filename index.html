@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YourRank - 测测你在中国处于前百分之几</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 顶部 Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🏆</span>
+        <span class="logo-text">YourRank</span>
+      </div>
+      <p class="header-sub">测测你在中国处于前百分之几</p>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+
+    <!-- 步骤进度条 -->
+    <div class="steps-bar" id="stepsBar">
+      <div class="step active" data-step="1"><span class="step-num">1</span><span class="step-label">高考</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="2"><span class="step-num">2</span><span class="step-label">学历</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="3"><span class="step-num">3</span><span class="step-label">工作</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="4"><span class="step-num">4</span><span class="step-label">收入</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="5"><span class="step-num">5</span><span class="step-label">资产</span></div>
+    </div>
+
+    <!-- 问卷卡片容器 -->
+    <div class="card-container">
+
+      <!-- Step 1: 高考省份 -->
+      <div class="card active" id="step1">
+        <div class="card-header">
+          <div class="card-icon">📍</div>
+          <h2 class="card-title">你参加高考的省份是？</h2>
+          <p class="card-desc">不同省份高考难度差异巨大，这是评估起点的重要因素</p>
+        </div>
+        <div class="province-search-wrap">
+          <input type="text" id="provinceSearch" class="province-search"
+            placeholder="🔍 输入省份名称快速搜索…" autocomplete="off" />
+        </div>
+        <div class="options-grid" id="provinceGrid">
+          <!-- 由JS动态生成 -->
+        </div>
+        <div class="no-gaokao-wrap">
+          <label class="toggle-label">
+            <input type="checkbox" id="skipGaokao" />
+            <span class="toggle-text">我未参加高考（专科/成人/海外等）</span>
+          </label>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="nextStep(1)" id="step1Next">下一步</button>
+        </div>
+      </div>
+
+      <!-- Step 2: 教育背景 -->
+      <div class="card" id="step2">
+
+        <!-- === A. 参加高考路径 === -->
+        <div id="step2-gaokao">
+          <div class="card-header">
+            <div class="card-icon">🎓</div>
+            <h2 class="card-title">你被哪类院校录取？</h2>
+            <p class="card-desc">高考录取院校层次是衡量学习能力的重要指标</p>
+          </div>
+          <div class="options-grid" id="gaokaoTierGrid">
+            <div class="option-card" data-group="edu1" data-value="985" data-score="95">
+              <div class="opt-icon">🌟</div>
+              <div class="opt-label">985院校</div>
+              <div class="opt-sub">全国顶尖39所</div>
+            </div>
+            <div class="option-card" data-group="edu1" data-value="211" data-score="88">
+              <div class="opt-icon">⭐</div>
+              <div class="opt-label">211院校</div>
+              <div class="opt-sub">重点本科（非985）</div>
+            </div>
+            <div class="option-card" data-group="edu1" data-value="一本" data-score="72">
+              <div class="opt-icon">📚</div>
+              <div class="opt-label">一本院校</div>
+              <div class="opt-sub">普通一本线以上</div>
+            </div>
+            <div class="option-card" data-group="edu1" data-value="二本" data-score="55">
+              <div class="opt-icon">📖</div>
+              <div class="opt-label">二本院校</div>
+              <div class="opt-sub">二本线以上</div>
+            </div>
+            <div class="option-card" data-group="edu1" data-value="专科" data-score="40">
+              <div class="opt-icon">📝</div>
+              <div class="opt-label">专科 / 高职</div>
+              <div class="opt-sub">高职高专院校</div>
+            </div>
+          </div>
+          <h3 class="sub-section-title" style="margin-top:24px;">是否继续深造？</h3>
+          <div class="options-grid" id="edu2Grid">
+            <div class="option-card" data-group="edu2" data-value="博士" data-score="98">
+              <div class="opt-icon">🔬</div>
+              <div class="opt-label">博士</div>
+              <div class="opt-sub">PhD / 专业博士</div>
+            </div>
+            <div class="option-card" data-group="edu2" data-value="硕士985" data-score="92">
+              <div class="opt-icon">🏛️</div>
+              <div class="opt-label">硕士（985/211）</div>
+              <div class="opt-sub">重点院校研究生</div>
+            </div>
+            <div class="option-card" data-group="edu2" data-value="硕士普通" data-score="80">
+              <div class="opt-icon">📝</div>
+              <div class="opt-label">硕士（普通）</div>
+              <div class="opt-sub">普通院校研究生</div>
+            </div>
+            <div class="option-card" data-group="edu2" data-value="无" data-score="0">
+              <div class="opt-icon">➖</div>
+              <div class="opt-label">无研究生学历</div>
+              <div class="opt-sub">本科为最高学历</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- === B. 未参加高考路径 === -->
+        <div id="step2-nogaokao" style="display:none">
+          <div class="card-header">
+            <div class="card-icon">🌐</div>
+            <h2 class="card-title">你的教育背景是？</h2>
+            <p class="card-desc">选择最符合你实际情况的类型</p>
+          </div>
+
+          <!-- 大类选择 -->
+          <div class="edu-category-grid">
+            <div class="edu-cat-card" id="catOverseas" onclick="selectEduCategory('overseas')">
+              <div class="cat-icon">✈️</div>
+              <div class="cat-label">海外留学</div>
+              <div class="cat-sub">在境外完成学业</div>
+            </div>
+            <div class="edu-cat-card" id="catDomestic" onclick="selectEduCategory('domestic')">
+              <div class="cat-icon">🏫</div>
+              <div class="cat-label">国内其他</div>
+              <div class="cat-sub">中专 / 职高 / 高中 / 辍学</div>
+            </div>
+          </div>
+
+          <!-- 海外留学子选项 -->
+          <div id="overseasSection" style="display:none">
+            <h3 class="sub-section-title" style="margin-top:20px;">留学国家 / 地区</h3>
+            <div class="options-grid country-grid" id="overseasCountryGrid">
+              <div class="option-card" data-group="edu1" data-value="美国" data-score="94">
+                <div class="opt-icon">🇺🇸</div>
+                <div class="opt-label">美国</div>
+                <div class="opt-sub">US</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="英国" data-score="93">
+                <div class="opt-icon">🇬🇧</div>
+                <div class="opt-label">英国</div>
+                <div class="opt-sub">UK</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="加拿大" data-score="88">
+                <div class="opt-icon">🇨🇦</div>
+                <div class="opt-label">加拿大</div>
+                <div class="opt-sub">Canada</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="澳大利亚" data-score="85">
+                <div class="opt-icon">🇦🇺</div>
+                <div class="opt-label">澳大利亚</div>
+                <div class="opt-sub">Australia</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="新加坡/香港" data-score="92">
+                <div class="opt-icon">🌏</div>
+                <div class="opt-label">新加坡 / 香港</div>
+                <div class="opt-sub">SG / HK</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="日本" data-score="82">
+                <div class="opt-icon">🇯🇵</div>
+                <div class="opt-label">日本</div>
+                <div class="opt-sub">Japan</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="德法欧洲" data-score="84">
+                <div class="opt-icon">🇪🇺</div>
+                <div class="opt-label">德 / 法 / 欧洲</div>
+                <div class="opt-sub">Europe</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="其他国家" data-score="68">
+                <div class="opt-icon">🌍</div>
+                <div class="opt-label">其他国家</div>
+                <div class="opt-sub">韩国 / 东南亚等</div>
+              </div>
+            </div>
+            <h3 class="sub-section-title" style="margin-top:16px;">留学层次</h3>
+            <div class="options-grid" id="overseasLevelGrid">
+              <div class="option-card" data-group="edu2" data-value="博士" data-score="98">
+                <div class="opt-icon">🔬</div>
+                <div class="opt-label">博士</div>
+                <div class="opt-sub">PhD</div>
+              </div>
+              <div class="option-card" data-group="edu2" data-value="硕士985" data-score="92">
+                <div class="opt-icon">🎓</div>
+                <div class="opt-label">硕士</div>
+                <div class="opt-sub">Master's</div>
+              </div>
+              <div class="option-card" data-group="edu2" data-value="本科留学" data-score="85">
+                <div class="opt-icon">📚</div>
+                <div class="opt-label">本科</div>
+                <div class="opt-sub">Bachelor's</div>
+              </div>
+              <div class="option-card" data-group="edu2" data-value="专科留学" data-score="65">
+                <div class="opt-icon">📖</div>
+                <div class="opt-label">专科 / 语言</div>
+                <div class="opt-sub">College / 语言学校</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 国内其他子选项 -->
+          <div id="domesticSection" style="display:none">
+            <h3 class="sub-section-title" style="margin-top:20px;">具体情况</h3>
+            <div class="options-grid" id="domesticGrid">
+              <div class="option-card" data-group="edu1" data-value="中专技校" data-score="35">
+                <div class="opt-icon">🔧</div>
+                <div class="opt-label">中专 / 技校</div>
+                <div class="opt-sub">职业技术学校</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="职高" data-score="30">
+                <div class="opt-icon">🏫</div>
+                <div class="opt-label">职业高中</div>
+                <div class="opt-sub">职高 / 综合高中</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="普通高中" data-score="28">
+                <div class="opt-icon">🎒</div>
+                <div class="opt-label">普通高中</div>
+                <div class="opt-sub">高中毕业 / 肄业</div>
+              </div>
+              <div class="option-card" data-group="edu1" data-value="初中辍学" data-score="15">
+                <div class="opt-icon">📉</div>
+                <div class="opt-label">初中及以下</div>
+                <div class="opt-sub">初中毕业 / 辍学</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="prevStep(2)">上一步</button>
+          <button class="btn btn-primary" onclick="nextStep(2)">下一步</button>
+        </div>
+      </div>
+
+      <!-- Step 3: 工作单位 -->
+      <div class="card" id="step3">
+        <div class="card-header">
+          <div class="card-icon">💼</div>
+          <h2 class="card-title">你的工作单位类型是？</h2>
+          <p class="card-desc">单位性质直接影响职业发展和社会地位</p>
+        </div>
+        <div class="options-grid" id="workGrid">
+          <div class="option-card" data-group="work" data-value="央企国企" data-score="88">
+            <div class="opt-icon">🏛️</div>
+            <div class="opt-label">央企 / 国企</div>
+            <div class="opt-sub">国有企业单位</div>
+          </div>
+          <div class="option-card" data-group="work" data-value="政府事业" data-score="90">
+            <div class="opt-icon">⚖️</div>
+            <div class="opt-label">政府 / 事业单位</div>
+            <div class="opt-sub">公务员 / 事业编</div>
+          </div>
+          <div class="option-card" data-group="work" data-value="500强外资" data-score="85">
+            <div class="opt-icon">🌍</div>
+            <div class="opt-label">世界500强 / 外企</div>
+            <div class="opt-sub">跨国公司</div>
+          </div>
+          <div class="option-card" data-group="work" data-value="互联网大厂" data-score="82">
+            <div class="opt-icon">💻</div>
+            <div class="opt-label">互联网大厂</div>
+            <div class="opt-sub">BAT/字节/美团等</div>
+          </div>
+          <div class="option-card" data-group="work" data-value="上市公司" data-score="75">
+            <div class="opt-icon">📈</div>
+            <div class="opt-label">上市公司</div>
+            <div class="opt-sub">A股/港股/美股上市</div>
+          </div>
+          <div class="option-card" data-group="work" data-value="中小企业" data-score="55">
+            <div class="opt-icon">🏢</div>
+            <div class="opt-label">中小企业</div>
+            <div class="opt-sub">普通民营企业</div>
+          </div>
+          <div class="option-card" data-group="work" data-value="自由职业" data-score="50">
+            <div class="opt-icon">🎨</div>
+            <div class="opt-label">自由职业 / 创业</div>
+            <div class="opt-sub">个体户/freelancer</div>
+          </div>
+          <div class="option-card" data-group="work" data-value="无业" data-score="10">
+            <div class="opt-icon">🌱</div>
+            <div class="opt-label">暂未就业</div>
+            <div class="opt-sub">待业/全职在家</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="prevStep(3)">上一步</button>
+          <button class="btn btn-primary" onclick="nextStep(3)">下一步</button>
+        </div>
+      </div>
+
+      <!-- Step 4: 收入 -->
+      <div class="card" id="step4">
+        <div class="card-header">
+          <div class="card-icon">💰</div>
+          <h2 class="card-title">你的月收入范围是？</h2>
+          <p class="card-desc">税后月收入（含奖金年化到月均）</p>
+        </div>
+        <div class="options-grid" id="salaryGrid">
+          <div class="option-card" data-group="salary" data-value="5万+" data-score="99">
+            <div class="opt-icon">💎</div>
+            <div class="opt-label">5万元以上</div>
+            <div class="opt-sub">年收入60万+</div>
+          </div>
+          <div class="option-card" data-group="salary" data-value="3-5万" data-score="97">
+            <div class="opt-icon">🥇</div>
+            <div class="opt-label">3万 - 5万</div>
+            <div class="opt-sub">年收入36-60万</div>
+          </div>
+          <div class="option-card" data-group="salary" data-value="2-3万" data-score="93">
+            <div class="opt-icon">🥈</div>
+            <div class="opt-label">2万 - 3万</div>
+            <div class="opt-sub">年收入24-36万</div>
+          </div>
+          <div class="option-card" data-group="salary" data-value="1-2万" data-score="85">
+            <div class="opt-icon">💵</div>
+            <div class="opt-label">1万 - 2万</div>
+            <div class="opt-sub">年收入12-24万</div>
+          </div>
+          <div class="option-card" data-group="salary" data-value="5000-1万" data-score="68">
+            <div class="opt-icon">💴</div>
+            <div class="opt-label">5000 - 1万</div>
+            <div class="opt-sub">年收入6-12万</div>
+          </div>
+          <div class="option-card" data-group="salary" data-value="3000-5000" data-score="45">
+            <div class="opt-icon">💶</div>
+            <div class="opt-label">3000 - 5000</div>
+            <div class="opt-sub">年收入3.6-6万</div>
+          </div>
+          <div class="option-card" data-group="salary" data-value="3000以下" data-score="20">
+            <div class="opt-icon">🪙</div>
+            <div class="opt-label">3000元以下</div>
+            <div class="opt-sub">低于平均水平</div>
+          </div>
+          <div class="option-card" data-group="salary" data-value="无收入" data-score="5">
+            <div class="opt-icon">⭕</div>
+            <div class="opt-label">暂无收入</div>
+            <div class="opt-sub">学生/待业</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="prevStep(4)">上一步</button>
+          <button class="btn btn-primary" onclick="nextStep(4)">下一步</button>
+        </div>
+      </div>
+
+      <!-- Step 5: 资产 -->
+      <div class="card" id="step5">
+        <div class="card-header">
+          <div class="card-icon">🏠</div>
+          <h2 class="card-title">你的资产状况如何？</h2>
+          <p class="card-desc">存款与不动产是衡量财富积累的关键指标</p>
+        </div>
+
+        <h3 class="sub-section-title">存款范围（个人名下）</h3>
+        <div class="options-grid" id="savingGrid">
+          <div class="option-card" data-group="saving" data-value="500万+" data-score="99.5">
+            <div class="opt-icon">🏦</div>
+            <div class="opt-label">500万元以上</div>
+            <div class="opt-sub">高净值人群</div>
+          </div>
+          <div class="option-card" data-group="saving" data-value="100-500万" data-score="98">
+            <div class="opt-icon">💰</div>
+            <div class="opt-label">100万 - 500万</div>
+            <div class="opt-sub">财富自由边缘</div>
+          </div>
+          <div class="option-card" data-group="saving" data-value="50-100万" data-score="94">
+            <div class="opt-icon">💵</div>
+            <div class="opt-label">50万 - 100万</div>
+            <div class="opt-sub">小康水平</div>
+          </div>
+          <div class="option-card" data-group="saving" data-value="20-50万" data-score="88">
+            <div class="opt-icon">💴</div>
+            <div class="opt-label">20万 - 50万</div>
+            <div class="opt-sub">有一定积累</div>
+          </div>
+          <div class="option-card" data-group="saving" data-value="10-20万" data-score="78">
+            <div class="opt-icon">💶</div>
+            <div class="opt-label">10万 - 20万</div>
+            <div class="opt-sub">略有积蓄</div>
+          </div>
+          <div class="option-card" data-group="saving" data-value="1-10万" data-score="60">
+            <div class="opt-icon">🪙</div>
+            <div class="opt-label">1万 - 10万</div>
+            <div class="opt-sub">初步积累</div>
+          </div>
+          <div class="option-card" data-group="saving" data-value="1万以下" data-score="35">
+            <div class="opt-icon">💸</div>
+            <div class="opt-label">1万元以下</div>
+            <div class="opt-sub">月光族</div>
+          </div>
+          <div class="option-card" data-group="saving" data-value="负债" data-score="10">
+            <div class="opt-icon">📉</div>
+            <div class="opt-label">负债状态</div>
+            <div class="opt-sub">贷款>存款</div>
+          </div>
+        </div>
+
+        <h3 class="sub-section-title" style="margin-top:24px;">是否有车有房？</h3>
+        <div class="asset-checks">
+          <label class="asset-check-label">
+            <input type="checkbox" id="hasHouse" />
+            <span class="check-custom"></span>
+            <span class="check-text">
+              <strong>名下有房</strong>
+              <span>（含按揭，一套及以上）</span>
+            </span>
+          </label>
+          <label class="asset-check-label">
+            <input type="checkbox" id="hasCar" />
+            <span class="check-custom"></span>
+            <span class="check-text">
+              <strong>名下有车</strong>
+              <span>（私家车，非二手电动车）</span>
+            </span>
+          </label>
+          <label class="asset-check-label">
+            <input type="checkbox" id="hasMultiHouse" />
+            <span class="check-custom"></span>
+            <span class="check-text">
+              <strong>名下有多套房</strong>
+              <span>（2套及以上）</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="prevStep(5)">上一步</button>
+          <button class="btn btn-primary btn-calc" onclick="calculateRank()">🎯 计算我的排名</button>
+        </div>
+      </div>
+
+      <!-- 结果页 -->
+      <div class="card result-card" id="stepResult">
+        <div class="result-header">
+          <div class="result-trophy" id="resultTrophy">🏆</div>
+          <h2 class="result-title">你的中国排名</h2>
+        </div>
+
+        <div class="rank-display">
+          <div class="rank-circle">
+            <svg viewBox="0 0 200 200" class="rank-svg">
+              <circle cx="100" cy="100" r="88" fill="none" stroke="#e8ecf0" stroke-width="12"/>
+              <circle cx="100" cy="100" r="88" fill="none" stroke="url(#rankGrad)" stroke-width="12"
+                stroke-linecap="round" stroke-dasharray="553" stroke-dashoffset="553"
+                id="rankCircle" transform="rotate(-90 100 100)"/>
+              <defs>
+                <linearGradient id="rankGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#667eea"/>
+                  <stop offset="100%" style="stop-color:#f093fb"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="rank-text-inner">
+              <div class="rank-percent" id="rankPercent">--</div>
+              <div class="rank-label">前 %</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rank-description" id="rankDescription"></div>
+
+        <div class="rank-breakdown">
+          <h3 class="breakdown-title">📊 各维度得分</h3>
+          <div id="breakdownList"></div>
+        </div>
+
+        <div class="rank-tips" id="rankTips"></div>
+
+        <div class="card-actions result-actions">
+          <button class="btn btn-secondary" onclick="resetAll()">🔄 重新测试</button>
+          <button class="btn btn-primary" onclick="shareResult()">📤 分享结果</button>
+        </div>
+
+        <!-- 分享提示 -->
+        <div class="share-toast" id="shareToast">✅ 结果已复制到剪贴板！</div>
+      </div>
+
+    </div>
+    <!-- end card-container -->
+
+  </main>
+
+  <footer class="site-footer">
+    <p>YourRank &copy; 2026 &nbsp;|&nbsp; 数据仅供娱乐参考，不作为任何评判标准</p>
+    <p>排名算法基于公开统计数据综合估算，存在一定误差</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
